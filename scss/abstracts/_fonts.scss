@@ -1,0 +1,74 @@
+@font-face {
+    font-family: MarkPro;
+    src: local(MarkPro-Book),
+        url(/public/fonts/MarkPro-Book.woff2) format("woff2"),
+        url(/public/fonts/MarkPro-Book.woff) format("woff"),
+        url(/public/fonts/MarkPro-Book.ttf) format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+}
+
+@font-face {
+    font-family: MarkPro;
+    src: local(MarkPro-Bold),
+        url(/public/fonts/MarkPro-Bold.woff2) format("woff2"),
+        url(/public/fonts/MarkPro-Bold.woff) format("woff"),
+        url(/public/fonts/MarkPro-Bold.ttf) format("truetype");
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+}
+
+.Text-Style {
+    font-family: MarkPro;
+    font-size: 22px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: var(--dark-blue-grey);
+}
+
+.Text-Style-4 {
+    font-family: MarkPro;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: var(--cool-grey-two);
+}
+
+.Text-Style-3 {
+    font-family: MarkPro;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: var(--dark-blue-grey);
+}
+
+.Text-Style-2 {
+    font-family: MarkPro;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #fff;
+}
+
+$font-xxxl: 8rem;
+$font-xxl: 5rem;
+$font-xl: 4rem;
+$font-lg: 3rem;
+$font-md: 2rem;
+$font-sm: 1.5rem;
+$font-xs: 0.7rem;
