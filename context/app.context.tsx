@@ -4,7 +4,7 @@ import { IContextProps, ITodo, IUser } from '../interfaces';
 
 const initialState: IContextProps = {
     user: undefined,
-    todos: []
+    todos: [],
 };
 
 export const AppContext = createContext<IContextProps>(initialState);
@@ -27,20 +27,31 @@ export const AppProvider = ({ children }: any): JSX.Element => {
      * Sets the current Todo list.
      * @param value An array representing Todos
      */
-    const setTodos: Function = (todo: ITodo) => {
+    const setTodos: Function = (todos: ITodo[]) => {
+        console.log('Setting todos to:', todos);
+
         setState((prevValues) => ({
             ...prevValues,
-            todo
+            todos
         }));
     };
+
+    // setState(prev => {
+    //     return {
+    //         ...prev,
+    //         setUser,
+    //         setTodos
+    //     }
+    // })
 
     return (
         <AppContext.Provider
             value={{
                 user: state.user as IUser,
-                setUser,
+                setUser: setUser,
                 todos: state.todos as ITodo[],
-                setTodos,
+                setTodos: setTodos,
+                state
             }}>
             {children}
         </AppContext.Provider>

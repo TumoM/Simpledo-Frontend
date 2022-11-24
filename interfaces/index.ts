@@ -19,6 +19,7 @@ export interface IContextProps {
      * Sets the current Todo's in context
      */
     setTodos?: Function;
+    state?: any
 }
 /**
  * A representation of a User's account
@@ -38,6 +39,11 @@ export interface IUser {
     email: string;
 }
 
+enum status {
+    complete = "complete",
+    incomplete = "incomplete",
+}
+
 /**
  * Represents a Todo item
  */
@@ -55,15 +61,31 @@ export interface ITodo {
      */
     title: string;
     /**
-     * The Todo's title
+     * The Todo's status
      */
-    status: ['complete', 'incomplete'];
+    status: status;
     /**
-     * The Todo's title
+     * The Todo's creation date
      */
     createdAt: Date;
     /**
-     * The Todo's title
+     * The Todo's last updated date
      */
     updatedAt: Date;
+}
+
+/**
+ * Custom error interface with an error code
+ */
+export interface IError extends Error {
+    /**
+     * The error code of the error
+     */
+    code?: number;
+}
+
+export enum FilterOptions {
+    All = "All",
+    Completed = "Completed",
+    Uncompleted = "Uncompleted"
 }
