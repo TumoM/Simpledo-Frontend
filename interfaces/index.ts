@@ -19,7 +19,14 @@ export interface IContextProps {
      * Sets the current Todo's in context
      */
     setTodos?: Function;
-    state?: any
+    /**
+     * The type of login or register
+     */
+    loginOrRegister: number;
+    /**
+     * Sets if login or registration
+     */
+    setLoginOrRegistration?: Function;
 }
 /**
  * A representation of a User's account

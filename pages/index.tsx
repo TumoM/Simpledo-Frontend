@@ -7,22 +7,46 @@ import { AppContext } from '../context/app.context';
 import { useSWRGet } from '../utils/fetcher';
 import { FilterOptions, ITodo } from '../interfaces';
 import TodosWrapper from '../components/todos/todosWrapper';
+import { Loader } from '@mantine/core';
+import { useRouter } from 'next/router'
+import axios from 'axios';
+import { useSWRConfig } from 'swr';
+
 
 
 const Home: React.FC = (): JSX.Element => {
-  const { user, todos, setTodos, state } = useContext(AppContext);
+  const { user, todos, setTodos, setUser } = useContext(AppContext);
+  const { mutate } = useSWRConfig();
 
-  const {
-    data: fetchedTodos,
-    isLoading: todosIsLoading = true,
-    isError: todosIsError,
-  } = useSWRGet(`todo/listTodos/`, 1 as unknown as string);
+  const [loading, setLoading] = useState<boolean>(true)
+  const [userCheck, setUserCheck] = useState<boolean>(true)
+  const router = useRouter()
 
   // const {
   //   data: fetchedTodos,
   //   isLoading: todosIsLoading = true,
   //   isError: todosIsError,
-  // } = useSWRGet(`todo/listTodos/:userId/`, user?.id ? user?.id as unknown as string : undefined);
+  // } = useSWRGet(`todo/listTodos/`, 1 as unknown as string);
+
+  useEffect(() => {
+    if (user == undefined && !localStorage.getItem('user')) {
+      router.push('/user')
+    }
+    else {
+      if (!user) {
+        setUser && setUser(JSON.parse(localStorage.getItem('user') as string))
+      }
+      setUserCheck(false)
+    }
+
+  }, [])
+
+
+  const {
+    data: fetchedTodos,
+    isLoading: todosIsLoading = true,
+    isError: todosIsError,
+  } = useSWRGet(`todo/listTodos/`, user?.id ? user?.id as unknown as string : undefined);
 
   // State regarding Todo catagories
   const [completeTodos, setCompleteTodos] = useState<ITodo[]>([]);
@@ -54,7 +78,7 @@ const Home: React.FC = (): JSX.Element => {
     })
     setCompleteTodos(complete);
     setIncompleteTodos(incomplete);
-
+    setLoading(false)
     return () => {
       setCompleteTodos([]);
       setIncompleteTodos([]);
@@ -71,10 +95,31 @@ const Home: React.FC = (): JSX.Element => {
     }
     else {
       console.log('Valid title')
-      return setTitleError('');
-
+      axios.post(`${process.env.NEXT_PUBLIC_API_URL}todo`, { userId: user?.id, title })
+        .then(async (res) => {
+          if (res.status == 200) {
+            await mutate(`todo/listTodos/${user?.id}`)
+            setTitle('');
+          }
+          else {
+            console.log('Error logging in');
+          }
+        })
+        .catch((err: Error) => {
+          console.log('API completed login error', err);
+        })
+        .finally(() => {
+          setLoading(false);
+        })
     }
-    console.log('Done.')
+  }
+
+  if (loading || userCheck || user == undefined) {
+    return (
+      <div className='flex items-center justify-center h-screen'>
+        <Loader color="cyan" size="xl" variant="bars" />
+      </div>
+    )
   }
 
   return (

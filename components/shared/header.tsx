@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from '../../context/app.context';
+import { useRouter } from 'next/router'
 
 const Header: React.FC = (): JSX.Element => {
+    const { setUser } = useContext(AppContext);
+    const router = useRouter()
 
     const handleLogout = () => {
-        console.log('Handle Logout here');
-
+        setUser && setUser(undefined)
+        router.push('/user');
     }
 
     return (
